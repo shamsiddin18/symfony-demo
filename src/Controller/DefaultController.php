@@ -22,8 +22,7 @@ final class DefaultController extends AbstractController
         EntityManagerInterface $entityManager,
         UserRepository $userRepository,
         UserPasswordHasherInterface $passwordHasher
-    )
-    {
+    ) {
         $this->entityManager = $entityManager;
         $this->userRepository = $userRepository;
         $this->passwordHasher = $passwordHasher;
@@ -43,12 +42,11 @@ final class DefaultController extends AbstractController
         name: 'register',
         methods: ['GET', 'POST']
     )]
-    public function newUser(Request $request, ): Response
+    public function newUser(Request $request): Response
     {
         $user = new User();
         $form = $this->createForm(UserCreateType::class, $user);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $passwordHash = $this->passwordHasher->hashPassword($user, $user->getPlainPassword());
             $user->setPasswordHash($passwordHash);
